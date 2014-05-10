@@ -20,7 +20,7 @@ ViewPager in a ListView to change NotBoringActionBar, and the interface to scrol
 
 # Video
 
-![video](http://tvpot.daum.net/v/v0f90DL7hNCDAA0AUtAAts0)
+http://tvpot.daum.net/v/v0f90DL7hNCDAA0AUtAAts0
 
 
 
