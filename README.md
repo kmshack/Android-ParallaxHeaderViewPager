@@ -1,7 +1,7 @@
 Android-ParallaxHeaderViewPager
 ===============================
 
-NewsStand Application for Android's view of play, such as a pager function that implements the example code.
+NewsStand Application for Android's view of play, such as a pager function that implements the code.
 
 
 
@@ -14,7 +14,13 @@ I based two made ​​a very good library.
  2. PagerSlidingTabStrip (https://github.com/astuetz/PagerSlidingTabStrip) 
 
 
-ViewPager in a ListView to change NotBoringActionBar, and the interface to scroll through the ListView inside of ViewPger scrolling function can be monitored or made ​​structure.
+ViewPager in a ListView to change NotBoringActionBar, and the interface to scroll through the ListView inside of ViewPger scrolling function can be monitored or made ​structure.
+
+
+
+# The perform video
+
+http://tvpot.daum.net/v/v0f90DL7hNCDAA0AUtAAts0
 
 
 
