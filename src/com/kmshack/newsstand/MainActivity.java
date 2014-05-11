@@ -43,12 +43,11 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 	private TypedValue mTypedValue = new TypedValue();
 	private SpannableString mSpannableString;
 	private AlphaForegroundColorSpan mAlphaForegroundColorSpan;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
 		mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
 		mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
@@ -78,61 +77,18 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 		getActionBarIconView().setAlpha(0f);
 	}
 
-	public class PagerAdapter extends FragmentPagerAdapter {
-
-		private SparseArrayCompat<ScrollTabHolder> mTabHolderScrollingContent;
-		private final String[] TITLES = { "Page 1", "Page 2", "Page 3", "Page 4", "Page 5" };
-		private ScrollTabHolder mListener;
-
-		public PagerAdapter(FragmentManager fm) {
-			super(fm);
-			mTabHolderScrollingContent = new SparseArrayCompat<ScrollTabHolder>();
-		}
-
-		public void setTabHolderScrollingContent(ScrollTabHolder listener) {
-			mListener = listener;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return TITLES[position];
-		}
-
-		@Override
-		public int getCount() {
-			return TITLES.length;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			ListFragment fragment = (ListFragment) ListFragment.newInstance(position);
-
-			mTabHolderScrollingContent.put(position, fragment);
-
-			if (mListener != null) {
-				fragment.setScrollTabHolder(mListener);
-			}
-
-			return fragment;
-		}
-
-		public SparseArrayCompat<ScrollTabHolder> getScrollTabHolders() {
-			return mTabHolderScrollingContent;
-		}
-
-	}
-
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
+		//nothing
 	}
 
 	@Override
 	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		//nothing
 	}
 
 	@Override
 	public void onPageSelected(int position) {
-
 		SparseArrayCompat<ScrollTabHolder> fragmentContent = mPagerAdapter.getScrollTabHolders();
 		ScrollTabHolder content = fragmentContent.valueAt(position);
 
@@ -152,7 +108,7 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 
 	@Override
 	public void adjustScroll(int tabBarTop) {
-
+		//nothing
 	}
 
 	public int getScrollY(AbsListView view) {
@@ -214,5 +170,49 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 	private ImageView getActionBarIconView() {
 		return (ImageView) findViewById(android.R.id.home);
 	}
+	
 
+	public class PagerAdapter extends FragmentPagerAdapter {
+
+		private SparseArrayCompat<ScrollTabHolder> mTabHolderScrollingContent;
+		private final String[] TITLES = { "Page 1", "Page 2", "Page 3", "Page 4", "Page 5" };
+		private ScrollTabHolder mListener;
+
+		public PagerAdapter(FragmentManager fm) {
+			super(fm);
+			mTabHolderScrollingContent = new SparseArrayCompat<ScrollTabHolder>();
+		}
+
+		public void setTabHolderScrollingContent(ScrollTabHolder listener) {
+			mListener = listener;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return TITLES[position];
+		}
+
+		@Override
+		public int getCount() {
+			return TITLES.length;
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			ListFragment fragment = (ListFragment) ListFragment.newInstance(position);
+
+			mTabHolderScrollingContent.put(position, fragment);
+
+			if (mListener != null) {
+				fragment.setScrollTabHolder(mListener);
+			}
+
+			return fragment;
+		}
+
+		public SparseArrayCompat<ScrollTabHolder> getScrollTabHolders() {
+			return mTabHolderScrollingContent;
+		}
+
+	}
 }
