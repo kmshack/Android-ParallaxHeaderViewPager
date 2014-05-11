@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_name">newsstand example</string>
-	<string name="actionbar_title">KMSHACK</string>
+	<string name="app_name">ParallaxHeaderViewPager</string>
+	<string name="actionbar_title">ParallaxHeaderViewPager</string>
 
 </resources>

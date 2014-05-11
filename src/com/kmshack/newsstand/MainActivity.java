@@ -48,6 +48,7 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
 		mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
 		mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
@@ -62,12 +63,12 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 
 		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setOffscreenPageLimit(5);
 
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		mPagerAdapter.setTabHolderScrollingContent(this);
 
 		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
 		mPagerSlidingTabStrip.setViewPager(mViewPager);
 		mPagerSlidingTabStrip.setOnPageChangeListener(this);
@@ -212,36 +213,6 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 
 	private ImageView getActionBarIconView() {
 		return (ImageView) findViewById(android.R.id.home);
-	}
-
-	public class DepthPageTransformer implements ViewPager.PageTransformer {
-		private static final float MIN_SCALE = 0.75f;
-
-		public void transformPage(View view, float position) {
-			int pageWidth = view.getWidth();
-
-			if (position < -1) {
-				view.setAlpha(0);
-
-			} else if (position <= 0) {
-				view.setAlpha(1);
-				view.setTranslationX(0);
-				view.setScaleX(1);
-				view.setScaleY(1);
-
-			} else if (position <= 1) {
-				view.setAlpha(1 - position);
-
-				view.setTranslationX(pageWidth * -position);
-
-				float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
-				view.setScaleX(scaleFactor);
-				view.setScaleY(scaleFactor);
-
-			} else {
-				view.setAlpha(0);
-			}
-		}
 	}
 
 }
