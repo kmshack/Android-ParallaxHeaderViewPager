@@ -17,10 +17,10 @@ public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollL
 	private static final String ARG_POSITION = "position";
 
 	private ScrollTabHolder mScrollTabHolder;
-	private ListView mListView;
 
+	private ListView mListView;
 	private ArrayList<String> mListItems;
-	
+
 	private int mPosition;
 
 	public static Fragment newInstance(int position) {
@@ -46,35 +46,37 @@ public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollL
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_list, null);
-		
+
 		mListView = (ListView) v.findViewById(R.id.listView);
-		
+
 		View placeHolderView = inflater.inflate(R.layout.view_header_placeholder, mListView, false);
 		mListView.addHeaderView(placeHolderView);
-		mListView.setOnScrollListener(this);
-		mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.list_item, android.R.id.text1, mListItems));
 
 		return v;
 	}
 
 	@Override
-	public void adjustScroll(int tabBarTop) {
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-		if (tabBarTop == 0 && mListView.getFirstVisiblePosition() >= 1) {
+		mListView.setOnScrollListener(this);
+		mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.list_item, android.R.id.text1, mListItems));
+	}
+
+	@Override
+	public void adjustScroll(int scrollHeight) {
+
+		if (scrollHeight == 0 && mListView.getFirstVisiblePosition() >= 1) {
 			return;
 		}
 
-		mListView.setSelectionFromTop(1, tabBarTop);
+		mListView.setSelectionFromTop(1, scrollHeight);
 
 	}
 
-	public void setScrollTabHolder(ScrollTabHolder scrollTabHolder) {
-		mScrollTabHolder = scrollTabHolder;
-	}
-	
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount, int pagePosition) {
-		//nothing
+		// nothing
 	}
 
 	@Override
@@ -85,7 +87,11 @@ public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollL
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		//nothing
+		// nothing
+	}
+
+	public void setScrollTabHolder(ScrollTabHolder scrollTabHolder) {
+		mScrollTabHolder = scrollTabHolder;
 	}
 
 }
