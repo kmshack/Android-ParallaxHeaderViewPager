@@ -57,12 +57,12 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 		mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
 		mHeaderPicture.setResourceIds(R.drawable.pic0, R.drawable.pic1);
 		mHeaderLogo = (ImageView) findViewById(R.id.header_logo);
-
 		mHeader = findViewById(R.id.header);
 
 		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setOffscreenPageLimit(5);
+
 
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		mPagerAdapter.setTabHolderScrollingContent(this);
@@ -71,9 +71,9 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 
 		mPagerSlidingTabStrip.setViewPager(mViewPager);
 		mPagerSlidingTabStrip.setOnPageChangeListener(this);
-
 		mSpannableString = new SpannableString(getString(R.string.actionbar_title));
 		mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(0xffffffff);
+		
 		getActionBarIconView().setAlpha(0f);
 	}
 
@@ -198,10 +198,9 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 
 		@Override
 		public Fragment getItem(int position) {
-			ListFragment fragment = (ListFragment) ListFragment.newInstance(position);
+			ScrollTabHolderFragment fragment = (ScrollTabHolderFragment) SampleListFragment.newInstance(position);
 
 			mScrollTabHolders.put(position, fragment);
-
 			if (mListener != null) {
 				fragment.setScrollTabHolder(mListener);
 			}

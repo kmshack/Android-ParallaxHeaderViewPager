@@ -12,11 +12,9 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollListener {
+public class SampleListFragment extends ScrollTabHolderFragment implements OnScrollListener {
 
 	private static final String ARG_POSITION = "position";
-
-	private ScrollTabHolder mScrollTabHolder;
 
 	private ListView mListView;
 	private ArrayList<String> mListItems;
@@ -24,7 +22,7 @@ public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollL
 	private int mPosition;
 
 	public static Fragment newInstance(int position) {
-		ListFragment f = new ListFragment();
+		SampleListFragment f = new SampleListFragment();
 		Bundle b = new Bundle();
 		b.putInt(ARG_POSITION, position);
 		f.setArguments(b);
@@ -65,18 +63,12 @@ public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollL
 
 	@Override
 	public void adjustScroll(int scrollHeight) {
-
 		if (scrollHeight == 0 && mListView.getFirstVisiblePosition() >= 1) {
 			return;
 		}
 
 		mListView.setSelectionFromTop(1, scrollHeight);
 
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount, int pagePosition) {
-		// nothing
 	}
 
 	@Override
@@ -88,10 +80,6 @@ public class ListFragment extends Fragment implements ScrollTabHolder, OnScrollL
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// nothing
-	}
-
-	public void setScrollTabHolder(ScrollTabHolder scrollTabHolder) {
-		mScrollTabHolder = scrollTabHolder;
 	}
 
 }

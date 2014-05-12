@@ -15,6 +15,7 @@
 		android:theme="@style/AppTheme" >
 		<activity
 			android:name="com.kmshack.newsstand.MainActivity"
+			android:configChanges="orientation|screenSize"
 			android:label="@string/app_name" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
