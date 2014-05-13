@@ -18,7 +18,7 @@ How to implement? see below.<br>
 3. Make Interface that Activity can get a Listener when you use OnScroll() in ListView or ScrollView.<br>
 4. Make Interface which is available to scroll when some events is happened in ListView or ScrollView.<br>
 
-From now on, you can fix scrollY value in ListView wherever the pages is swiped through the interface you've just made.<br>
+From now on, you can fix scrollY value in ListView wherever the pages are swiped through the interface you've just made.<br>
 
 # Video
 
