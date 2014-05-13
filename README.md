@@ -1,24 +1,24 @@
 Android-ParallaxHeaderViewPager
 ===============================
 
-This library is pager UI for Android.
+This library is pager UI for Android.<br>
 (such as pager UI in Play NewsStand Application)
 
 ![screens](screen.png)
 
 
-I made this based on very good libraries such as below.
- 1. NotBoringActionBar (https://github.com/flavienlaurent/NotBoringActionBar) 
- 2. PagerSlidingTabStrip (https://github.com/astuetz/PagerSlidingTabStrip) 
+I made this based on very good libraries such as below.<br>
+ 1. NotBoringActionBar (https://github.com/flavienlaurent/NotBoringActionBar) <br>
+ 2. PagerSlidingTabStrip (https://github.com/astuetz/PagerSlidingTabStrip) <br>
 
 
-How to implement? see below.
-1. Change ListView in NotBoringActionBar to ViewPager.
-2. Make ListView or ScrollView of Fragment in ViewPager.
-3. Make Interface that Activity can get a Listener when you use OnScroll() in ListView or ScrollView.
-4. Make Interface which is available to scroll when some events is happened in ListView or ScrollView.
+How to implement? see below.<br>
+1. Change ListView in NotBoringActionBar to ViewPager.<br>
+2. Make ListView or ScrollView of Fragment in ViewPager.<br>
+3. Make Interface that Activity can get a Listener when you use OnScroll() in ListView or ScrollView.<br>
+4. Make Interface which is available to scroll when some events is happened in ListView or ScrollView.<br>
 
-From now on, you can fix scrollY value in ListView wherever the pages is swiped through the interface you've just made.
+From now on, you can fix scrollY value in ListView wherever the pages is swiped through the interface you've just made.<br>
 
 # Video
 
