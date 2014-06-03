@@ -20,6 +20,12 @@ How to implement? see below.<br>
 
 From now on, you can fix scrollY value in ListView wherever the pages are swiped through the interface you've just made.<br>
 
+
+# Google Play Store Download
+
+https://play.google.com/store/apps/details?id=com.kmshack.newsstand
+
+
 # Video
 
 http://www.youtube.com/watch?v=sCP-b0a1x5Y
