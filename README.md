@@ -39,6 +39,10 @@ http://www.youtube.com/watch?v=sCP-b0a1x5Y
 
 
 
+[![Analytics](https://ga-beacon.appspot.com/UA-51734472-1/Android-ParallaxHeaderViewPager/readme)](https://https://github.com/kmshack/Android-ParallaxHeaderViewPager)
+
+
+
 # License
 
     Copyright 2014 Kim Min Soo
