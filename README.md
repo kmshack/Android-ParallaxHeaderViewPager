@@ -4,6 +4,9 @@ Android-ParallaxHeaderViewPager
 This library is pager UI for Android.<br>
 (such as pager UI in Play NewsStand Application)
 
+to use this project you need to add :
+ 1. NineOldAndroids (https://github.com/JakeWharton/NineOldAndroids) <br>
+ 2. Appcompat (http://developer.android.com/tools/support-library/features.html#v7-appcompat) <br>
 ![screens](screen.png)
 
 
