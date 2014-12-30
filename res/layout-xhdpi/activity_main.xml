@@ -30,5 +30,12 @@
 			android:layout_gravity="bottom"
 			android:background="#0072C6" />
 	</FrameLayout>
-
+	<TextView
+	    android:id="@+id/info"
+	    android:layout_gravity="bottom"
+	    android:layout_width="fill_parent"
+	    android:layout_height="48dp"
+	    android:textColor="#FF0000"
+	    android:gravity="center"
+	    />
 </FrameLayout>

@@ -10,14 +10,13 @@ import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 public class MainActivity extends FragmentActivity implements ScrollTabHolder, ViewPager.OnPageChangeListener {
 	
-	public final boolean NEEDS_PROXY = Integer.valueOf(Build.VERSION.SDK).intValue() < 11;
+	public static final boolean NEEDS_PROXY = Integer.valueOf(Build.VERSION.SDK).intValue() < 11;
 	
 	private View mHeader; 
 
@@ -28,6 +27,9 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 	private int mMinHeaderHeight;
 	private int mHeaderHeight;
 	private int mMinHeaderTranslation;
+	
+	private TextView info;
+	private int mLastY;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 		setContentView(R.layout.activity_main);
 
 		mHeader = findViewById(R.id.header);
+		info = (TextView) findViewById(R.id.info);
 
 		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -52,7 +55,7 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 
 		mPagerSlidingTabStrip.setViewPager(mViewPager);
 		mPagerSlidingTabStrip.setOnPageChangeListener(this);
-		
+		mLastY=0;
 	}
 
 	@Override
@@ -70,11 +73,11 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 		SparseArrayCompat<ScrollTabHolder> scrollTabHolders = mPagerAdapter.getScrollTabHolders();
 		ScrollTabHolder currentHolder = scrollTabHolders.valueAt(position);
 		if(NEEDS_PROXY){
-			//TODO not do well in low API
-			currentHolder.adjustScroll((int) (mHeader.getHeight() +mHeader.getScrollY()));
+			//TODO is not good 
+			currentHolder.adjustScroll(mHeader.getHeight()-mLastY);
 			mHeader.postInvalidate();
 		}else{
-			currentHolder.adjustScroll((int) (mHeader.getHeight() +mHeader.getTranslationY()));			
+			currentHolder.adjustScroll((int) (mHeader.getHeight() +mHeader.getTranslationY()));	
 		}
 	}
 
@@ -83,8 +86,10 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 		if (mViewPager.getCurrentItem() == pagePosition) {
 			int scrollY = getScrollY(view);
 			if(NEEDS_PROXY){
-				//TODO not do well in low API
-				mHeader.scrollTo(0, -Math.max(-scrollY, mMinHeaderTranslation));
+				//TODO is not good 
+				mLastY=-Math.max(-scrollY, mMinHeaderTranslation);
+				info.setText(String.valueOf(scrollY));
+				mHeader.scrollTo(0, mLastY);
 				mHeader.postInvalidate();
 			}else{
 				mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));				
