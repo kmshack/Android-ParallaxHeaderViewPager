@@ -1,66 +1,48 @@
 package com.kmshack.newsstand;
 
-import android.annotation.TargetApi;
-import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.flavienlaurent.notboringactionbar.AlphaForegroundColorSpan;
-import com.flavienlaurent.notboringactionbar.KenBurnsSupportView;
-import com.nineoldandroids.view.ViewHelper;
 
-public class MainActivity extends ActionBarActivity implements ScrollTabHolder, ViewPager.OnPageChangeListener {
-
-	private static AccelerateDecelerateInterpolator sSmoothInterpolator = new AccelerateDecelerateInterpolator();
-
-	private KenBurnsSupportView mHeaderPicture;
-	private View mHeader;
+public class MainActivity extends FragmentActivity implements ScrollTabHolder, ViewPager.OnPageChangeListener {
+	
+	public static final boolean NEEDS_PROXY = Integer.valueOf(Build.VERSION.SDK).intValue() < 11;
+	
+	private View mHeader; 
 
 	private PagerSlidingTabStrip mPagerSlidingTabStrip;
 	private ViewPager mViewPager;
 	private PagerAdapter mPagerAdapter;
 
-	private int mActionBarHeight;
 	private int mMinHeaderHeight;
 	private int mHeaderHeight;
 	private int mMinHeaderTranslation;
-	private ImageView mHeaderLogo;
-
-	private RectF mRect1 = new RectF();
-	private RectF mRect2 = new RectF();
-
-	private TypedValue mTypedValue = new TypedValue();
-	private SpannableString mSpannableString;
-	private AlphaForegroundColorSpan mAlphaForegroundColorSpan;
-
+	
+	private TextView info;
+	private int mLastY;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
 		mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
-		mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
+		mMinHeaderTranslation = -mMinHeaderHeight;
 
 		setContentView(R.layout.activity_main);
 
-		mHeaderPicture = (KenBurnsSupportView) findViewById(R.id.header_picture);
-		mHeaderPicture.setResourceIds(R.drawable.pic0, R.drawable.pic1);
-		mHeaderLogo = (ImageView) findViewById(R.id.header_logo);
 		mHeader = findViewById(R.id.header);
+		info = (TextView) findViewById(R.id.info);
 
 		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -73,12 +55,7 @@ public class MainActivity extends ActionBarActivity implements ScrollTabHolder, 
 
 		mPagerSlidingTabStrip.setViewPager(mViewPager);
 		mPagerSlidingTabStrip.setOnPageChangeListener(this);
-		mSpannableString = new SpannableString(getString(R.string.actionbar_title));
-		mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(0xffffffff);
-		
-		ViewHelper.setAlpha(getActionBarIconView(), 0f);
-		
-		getSupportActionBar().setBackgroundDrawable(null);
+		mLastY=0;
 	}
 
 	@Override
@@ -95,18 +72,28 @@ public class MainActivity extends ActionBarActivity implements ScrollTabHolder, 
 	public void onPageSelected(int position) {
 		SparseArrayCompat<ScrollTabHolder> scrollTabHolders = mPagerAdapter.getScrollTabHolders();
 		ScrollTabHolder currentHolder = scrollTabHolders.valueAt(position);
-
-		currentHolder.adjustScroll((int) (mHeader.getHeight() + ViewHelper.getTranslationY(mHeader)));
+		if(NEEDS_PROXY){
+			//TODO is not good 
+			currentHolder.adjustScroll(mHeader.getHeight()-mLastY);
+			mHeader.postInvalidate();
+		}else{
+			currentHolder.adjustScroll((int) (mHeader.getHeight() +mHeader.getTranslationY()));	
+		}
 	}
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount, int pagePosition) {
 		if (mViewPager.getCurrentItem() == pagePosition) {
 			int scrollY = getScrollY(view);
-			ViewHelper.setTranslationY(mHeader, Math.max(-scrollY, mMinHeaderTranslation));
-			float ratio = clamp(ViewHelper.getTranslationY(mHeader) / mMinHeaderTranslation, 0.0f, 1.0f);
-			interpolate(mHeaderLogo, getActionBarIconView(), sSmoothInterpolator.getInterpolation(ratio));
-			setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+			if(NEEDS_PROXY){
+				//TODO is not good 
+				mLastY=-Math.max(-scrollY, mMinHeaderTranslation);
+				info.setText(String.valueOf(scrollY));
+				mHeader.scrollTo(0, mLastY);
+				mHeader.postInvalidate();
+			}else{
+				mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));				
+			}
 		}
 	}
 
@@ -134,59 +121,6 @@ public class MainActivity extends ActionBarActivity implements ScrollTabHolder, 
 
 	public static float clamp(float value, float max, float min) {
 		return Math.max(Math.min(value, min), max);
-	}
-
-	private void interpolate(View view1, View view2, float interpolation) {
-		getOnScreenRect(mRect1, view1);
-		getOnScreenRect(mRect2, view2);
-
-		float scaleX = 1.0F + interpolation * (mRect2.width() / mRect1.width() - 1.0F);
-		float scaleY = 1.0F + interpolation * (mRect2.height() / mRect1.height() - 1.0F);
-		float translationX = 0.5F * (interpolation * (mRect2.left + mRect2.right - mRect1.left - mRect1.right));
-		float translationY = 0.5F * (interpolation * (mRect2.top + mRect2.bottom - mRect1.top - mRect1.bottom));
-
-		ViewHelper.setTranslationX(view1, translationX);
-		ViewHelper.setTranslationY(view1, translationY - ViewHelper.getTranslationY(mHeader));
-		ViewHelper.setScaleX(view1, scaleX);
-		ViewHelper.setScaleY(view1, scaleY);
-	}
-
-	private RectF getOnScreenRect(RectF rect, View view) {
-		rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-		return rect;
-	}
-
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public int getActionBarHeight() {
-		if (mActionBarHeight != 0) {
-			return mActionBarHeight;
-		}
-		
-		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB){
-			getTheme().resolveAttribute(android.R.attr.actionBarSize, mTypedValue, true);
-		}else{
-			getTheme().resolveAttribute(R.attr.actionBarSize, mTypedValue, true);
-		}
-		
-		mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
-		
-		return mActionBarHeight;
-	}
-
-	private void setTitleAlpha(float alpha) {
-		mAlphaForegroundColorSpan.setAlpha(alpha);
-		mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		getSupportActionBar().setTitle(mSpannableString);
-	}
-
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private ImageView getActionBarIconView() {
-		
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-			return (ImageView)findViewById(android.R.id.home);
-		}
-
-		return (ImageView)findViewById(android.support.v7.appcompat.R.id.home);
 	}
 
 	public class PagerAdapter extends FragmentPagerAdapter {
