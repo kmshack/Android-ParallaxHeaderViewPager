@@ -1,5 +1,6 @@
 package com.kmshack.newsstand;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,10 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements ScrollTabHolder, ViewPager.OnPageChangeListener {
 	
-	public static final boolean NEEDS_PROXY = Integer.valueOf(Build.VERSION.SDK).intValue() < 11;
+	public static final boolean NEEDS_PROXY = Integer.valueOf(Build.VERSION.SDK_INT).intValue() < 11;
 	
 	private View mHeader; 
 
@@ -62,10 +64,30 @@ public class MainActivity extends FragmentActivity implements ScrollTabHolder, V
 	public void onPageScrollStateChanged(int arg0) {
 		// nothing
 	}
-
+	
 	@Override
 	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		// nothing
+
+		if (positionOffsetPixels > 0) {
+			int currentItem = mViewPager.getCurrentItem();
+
+			SparseArrayCompat<ScrollTabHolder> scrollTabHolders = mPagerAdapter.getScrollTabHolders();
+			ScrollTabHolder currentHolder;
+
+			if (position < currentItem) {
+				currentHolder = scrollTabHolders.valueAt(position);
+			} else {
+				currentHolder = scrollTabHolders.valueAt(position + 1);
+			}
+
+			if (NEEDS_PROXY) {
+				// TODO is not good
+				currentHolder.adjustScroll(mHeader.getHeight() - mLastY);
+				mHeader.postInvalidate();
+			} else {
+				currentHolder.adjustScroll((int) (mHeader.getHeight() + mHeader.getTranslationY()));
+			}
+		}
 	}
 
 	@Override
