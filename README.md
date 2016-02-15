@@ -3,6 +3,7 @@ StowableHeaderViewPager
 
 simply ParallaxHeaderViewPager into StowableHeaderViewPager
 
+sample app download: https://play.google.com/store/apps/details?id=com.kmshack.newsstand
 
 
 # Developed By
