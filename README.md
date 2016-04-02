@@ -1,30 +1,24 @@
-StowableHeaderViewPager
-===============================
+ParallaxHeaderViewPager Example
+===================
+HeaderView to secure the top left and right swipe at ViewPager even when a sample code for implementing HeaderView UI that can be maintained. Through the sample code, you can configure a better UI.
 
-simply ParallaxHeaderViewPager into StowableHeaderViewPager
-
-sample app download: https://play.google.com/store/apps/details?id=com.kmshack.newsstand
-
-
-# Developed By
-
- * Kim Min Soo - <kmshack@naver.com>
- * http://www.kmshack.kr
+ViewPager에서 상단 HeaderView를 고정하여 좌우 스와이프시에도 HeaderView가 유지 될 수있는 UI구현 하기위한 예제코드 입니다. 예제 코드를 통해 좀더 나은 UI를 구성할 수 있습니다. 
 
 
-# License
 
-    Copyright 2014 Kim Min Soo
+Sample Application Download
+----
+https://play.google.com/store/apps/details?id=com.kmshack.newsstand
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+Developed By
+----
+KIM MIN SOO
+http://www.kmshack.kr
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-    
+
+License
+----
+Apache License, Version 2.0
+
+
