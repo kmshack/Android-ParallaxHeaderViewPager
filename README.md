@@ -6,6 +6,10 @@ ViewPager에서 상단 HeaderView를 고정하여 좌우 스와이프시에도 H
 
 
 
+![screens](screen.png)
+
+
+
 Sample Application Download
 ----
 https://play.google.com/store/apps/details?id=com.kmshack.newsstand
